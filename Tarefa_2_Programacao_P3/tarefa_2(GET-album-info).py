@@ -6,6 +6,7 @@ URL_API_ALBUM = 'album.php?i={}'
 URL_API_ARTIST = 'search.php?s={}'
 URL_API_TRACK = 'track.php?m={}'
 
+# Função criada antes da modificação da API
 def get_artist_id(artist_name):
     """ 
     Função que retorna o id do artista ao passar o nome 
@@ -25,6 +26,21 @@ def get_artist_id(artist_name):
 
     return artist_id
 
+def get_id(artist_name):
+    artist_id_by_name = {
+        'Coldplay': 111239,
+        'Miley Cyrus': 113672,
+        'The Weeknd': 112024,
+        'Lady Gaga': 111236,
+        'Rihanna': 111305,
+        'Justin Bieber': 111626,
+        'Imagine Dragons': 114415,
+        'Drake': 111718,
+        'Beyoncé': 114364,
+        'Madonna': 111255
+    }
+
+    return artist_id_by_name[artist_name]
 
 def get_album(artist_id):  
     """ 
@@ -81,7 +97,7 @@ def generate_data(artist_name):
         data: dicionário com os dados
     """
     try:
-        artist_id = get_artist_id(artist_name)
+        artist_id = get_id(artist_name)
         album_name, album_id, album_year = get_album(artist_id)
         track_list = get_tracks(album_id)
 
@@ -104,9 +120,11 @@ def save_data(artist_name):
         artist_name (str): nome do artista
     """
     data = generate_data(artist_name)
-    with open('data.json', 'w') as file:
+    with open('data1.json', 'w') as file:
         json.dump(data, file)
 
 if __name__ == "__main__":
     artist_name = input('Digite o nome do artista: ')
+    # salvando os dados em um arquivo json
     save_data(artist_name)
+    print('Dados salvos com sucesso')
